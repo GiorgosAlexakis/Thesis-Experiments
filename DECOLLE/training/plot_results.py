@@ -124,3 +124,4 @@ for i in parameters_to_check:
         fig = class_acc_plot.get_figure()
         filepath='./plots/bar/'+i+'/barh_acc_'+i+'_layer_'+str(layer)+'.png'
         fig.savefig(filepath ,bbox_inches="tight")
+        plt.close('all')
