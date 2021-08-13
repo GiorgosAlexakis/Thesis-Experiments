@@ -395,7 +395,7 @@ def save_checkpoint(epoch, checkpoint_dir, net, opt):
         'epoch'               : epoch,
         'model_state_dict'    : net.state_dict(),
         'optimizer_state_dict': opt.state_dict(),
-        }, os.path.join(checkpoint_dir, 'epoch{:05}.tar'.format(epoch)))
+        }, os.path.join(checkpoint_dir, 'epoch.tar'))
 
 
 def write_stats(epoch, test_acc, test_loss, writer):
