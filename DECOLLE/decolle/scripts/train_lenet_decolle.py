@@ -115,6 +115,8 @@ print('\n------Starting training with {} DECOLLE layers-------'.format(len(net))
 # --------TRAINING LOOP----------
 if not args.no_train:
     test_acc_hist = []
+    test_loss_hist = []
+    total_loss_hist = []
     for e in range(starting_epoch , params['num_epochs'] ):
         interval = e // params['lr_drop_interval']
         lr = opt.param_groups[-1]['lr']
@@ -143,16 +145,18 @@ if not args.no_train:
                 test_loss, test_acc, true, pred = test(gen_test, decolle_loss, net, params['burnin_steps'], is_last_epoch, print_error = True)
                 
             test_acc_hist.append(test_acc)
-
+            test_loss_hist.append(test_loss)
             if not args.no_save:
                 write_stats(e, test_acc, test_loss, writer)
                 np.save(log_dir+'/test_acc.npy', np.array(test_acc_hist),)
-                
+                np.save(log_dir+'/test_loss.npy', np.array(test_loss_hist),)
                 if is_last_epoch:
                     np.save(log_dir+'/true.npy', true,)
                     np.save(log_dir+'/pred.npy', pred,)
 
         total_loss, act_rate = train(gen_train, decolle_loss, net, opt, e, params['burnin_steps'], online_update=params['online_update'])
+        total_loss_hist.append(total_loss)
         if not args.no_save:
+            np.save(log_dir+'/total_loss.npy', np.array(total_loss_hist),)
             for i in range(len(net)):
                 writer.add_scalar('/act_rate/{0}'.format(i), act_rate[i], e)
