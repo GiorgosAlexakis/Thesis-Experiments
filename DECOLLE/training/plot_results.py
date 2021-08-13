@@ -8,7 +8,7 @@ from pathlib import Path
 from datetime import datetime
 from sklearn.metrics import confusion_matrix
 import seaborn as sn
-parameters_to_check=['01']
+parameters_to_check=['01','02','03','04','05','06','07']
 classes = [ 'Hand Clapping'  ,
             'Right Hand Wave',
             'Left Hand Wave' ,
