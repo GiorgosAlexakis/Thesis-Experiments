@@ -24,6 +24,8 @@ classes = [ 'Hand Clapping'  ,
 for i in parameters_to_check:
     path = 'logs/output_data/'+i	
     file_test_acc = list(Path(path).cwd().glob("**/test_acc.npy"))[0]
+    file_test_loss = list(Path(path).cwd().glob("**/test_loss.npy"))[0]
+    file_total_loss = list(Path(path).cwd().glob("**/total_loss.npy"))[0]
     file_pred = list(Path(path).cwd().glob("**/pred.npy"))[0]
     file_true = list(Path(path).cwd().glob("**/true.npy"))[0]
 
@@ -39,14 +41,45 @@ for i in parameters_to_check:
     layers=len(df.columns)
     layers_indices=['Layer '+str(i) for i in range(0,layers)]
     df.columns=layers_indices
-    plot = df.plot(xticks=epochs_indices,title='Training Results')
+    plot = df.plot(xticks=epochs_indices,title='Training Results (Accuracy)')
     plt.grid()
     plot.set_xlabel("Epoch")
     plot.set_ylabel("Correct Predictions%")
     fig = plot.get_figure()
-    filepath='./plots/correct_perc/'+'acc_'+i+'.png'
+    filepath='./plots/correct_perc/'+i+'/acc_'+i+'.png'
     fig.savefig(filepath)
-    
+    ######test LOSS######
+    data_array = np.load(file_test_loss)
+    df = pd.DataFrame(data_array)
+    print(df)
+    epochs=len(df)
+    epochs_indices=[i for i in range(0,epochs)]
+    layers=len(df.columns)
+    layers_indices=['Layer '+str(i) for i in range(0,layers)]
+    df.columns=layers_indices
+    plot = df.plot(xticks=epochs_indices,title='Training Results (Test Loss)')
+    plt.grid()
+    plot.set_xlabel("Epoch")
+    plot.set_ylabel("Test Loss")
+    fig = plot.get_figure()
+    filepath='./plots/test_loss/'+i+'/test_loss_'+i+'.png'
+    fig.savefig(filepath)
+    ######total LOSS######
+    data_array = np.load(file_total_loss)
+    df = pd.DataFrame(data_array)
+    print(df)
+    epochs=len(df)
+    epochs_indices=[i for i in range(0,epochs)]
+    layers=len(df.columns)
+    layers_indices=['Layer '+str(i) for i in range(0,layers)]
+    df.columns=layers_indices
+    plot = df.plot(xticks=epochs_indices,title='Training Results (Total Loss)')
+    plt.grid()
+    plot.set_xlabel("Epoch")
+    plot.set_ylabel("Total Loss")
+    fig = plot.get_figure()
+    filepath='./plots/total_loss/'+i+'/total_loss_'+i+'.png'
+    fig.savefig(filepath)
     ######CONFUSION MATRIX######
     
     true_labels = np.column_stack(np.load(file_true))
@@ -67,7 +100,7 @@ for i in parameters_to_check:
         title = "Confusion Matrix (Percentage),"+" Layer: "+str(layer) 
         plt.title("fef")
         fig = plot.get_figure()
-        filepath='./plots/confusion_matrices/'+'perc_'+i+'_layer_'+str(layer)+'.png'
+        filepath='./plots/confusion_matrices/'+i+'/perc_'+i+'_layer_'+str(layer)+'.png'
         fig.savefig(filepath)
         
         plt.figure(figsize = (12,7))
@@ -78,16 +111,16 @@ for i in parameters_to_check:
         plt.title(title1)
         plt.xticks(rotation=15)
         fig = plot1.get_figure()
-        filepath='./plots/confusion_matrices/'+'count_'+i+'_layer_'+str(layer)+'.png'
+        filepath='./plots/confusion_matrices/'+i+'/count_'+i+'_layer_'+str(layer)+'.png'
         fig.savefig(filepath)
         
         ######Horizontal Bar######
         df = pd.DataFrame({'Classes': classes,'Class Accuracy(%)': class_accuracy})
-        print(class_accuracy)
+        #print(class_accuracy)
         plt.figure(figsize = (12,7))
         
         class_acc_plot = df.plot.barh(x='Classes', y='Class Accuracy(%)')
         
         fig = class_acc_plot.get_figure()
-        filepath='./plots/bar/'+'barh_acc_'+i+'_layer_'+str(layer)+'.png'
+        filepath='./plots/bar/'+i+'/barh_acc_'+i+'_layer_'+str(layer)+'.png'
         fig.savefig(filepath ,bbox_inches="tight")
