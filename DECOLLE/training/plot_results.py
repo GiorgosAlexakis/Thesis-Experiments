@@ -51,7 +51,7 @@ for i in parameters_to_check:
     ######test LOSS######
     data_array = np.load(file_test_loss)
     df = pd.DataFrame(data_array)
-    print(df)
+    #print(df)
     epochs=len(df)
     epochs_indices=[i for i in range(0,epochs)]
     layers=len(df.columns)
@@ -67,7 +67,7 @@ for i in parameters_to_check:
     ######total LOSS######
     data_array = np.load(file_total_loss)
     df = pd.DataFrame(data_array)
-    print(df)
+    #print(df)
     epochs=len(df)
     epochs_indices=[i for i in range(0,epochs)]
     layers=len(df.columns)
