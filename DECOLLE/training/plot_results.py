@@ -8,7 +8,8 @@ from pathlib import Path
 from datetime import datetime
 from sklearn.metrics import confusion_matrix
 import seaborn as sn
-parameters_to_check=['01','02','03','04','05','06','07']
+#parameters_to_check=['01','02','03','04','05','06','07']
+parameters_to_check=['01','02']
 classes = [ 'Hand Clapping'  ,
             'Right Hand Wave',
             'Left Hand Wave' ,
@@ -41,7 +42,10 @@ for i in parameters_to_check:
     layers=len(df.columns)
     layers_indices=['Layer '+str(i) for i in range(0,layers)]
     df.columns=layers_indices
+
     plot = df.plot(xticks=epochs_indices,title='Training Results (Accuracy)')
+    n = 50  # Keeps every 7th label
+    [l.set_visible(False) for (i,l) in enumerate(plot.xaxis.get_ticklabels()) if i % n != 0]
     plt.grid()
     plot.set_xlabel("Epoch")
     plot.set_ylabel("Correct Predictions%")
@@ -58,6 +62,8 @@ for i in parameters_to_check:
     layers_indices=['Layer '+str(i) for i in range(0,layers)]
     df.columns=layers_indices
     plot = df.plot(xticks=epochs_indices,title='Training Results (Test Loss)')
+    n = 50  # Keeps every 7th label
+    [l.set_visible(False) for (i,l) in enumerate(plot.xaxis.get_ticklabels()) if i % n != 0]
     plt.grid()
     plot.set_xlabel("Epoch")
     plot.set_ylabel("Test Loss")
@@ -74,6 +80,8 @@ for i in parameters_to_check:
     layers_indices=['Layer '+str(i) for i in range(0,layers)]
     df.columns=layers_indices
     plot = df.plot(xticks=epochs_indices,title='Training Results (Total Loss)')
+    n = 50  # Keeps every 7th label
+    [l.set_visible(False) for (i,l) in enumerate(plot.xaxis.get_ticklabels()) if i % n != 0]
     plt.grid()
     plot.set_xlabel("Epoch")
     plot.set_ylabel("Total Loss")
@@ -125,3 +133,4 @@ for i in parameters_to_check:
         filepath='./plots/bar/'+i+'/barh_acc_'+i+'_layer_'+str(layer)+'.png'
         fig.savefig(filepath ,bbox_inches="tight")
         plt.close('all')
+        
