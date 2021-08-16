@@ -7,7 +7,7 @@ output_path="../output_data"
 #params_dvsgestures_01.yml
 #--save_dir=
 #--verbose=True to display the parameters we are using
-parameters_to_check=(01 02 03 04 05 06 07 08 09 10 11 12 13 14)parameters_to_check=(01)
+parameters_to_check=(01 02 03 04 05 06 07 08 09 10 11 12 13 14)
 for t in ${parameters_to_check[@]}; do
     mkdir ./plots/bar/$t
     mkdir ./plots/confusion_matrices/$t
