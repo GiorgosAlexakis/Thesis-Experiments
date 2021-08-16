@@ -7,7 +7,7 @@ from setuptools import setup, find_packages
 # To use a consistent encoding
 from codecs import open
 from os import path
-
+#"torchneuromorphic>=0.3.4",
 here = path.abspath(path.dirname(__file__))
 
 # Get the long description from the README file
@@ -31,7 +31,6 @@ setup(
         "h5py",
         "tqdm",
         "tensorboardX",
-        "torchneuromorphic>=0.3.4",
         "pyyaml"
     ]
 )
