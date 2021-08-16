@@ -18,7 +18,6 @@ done
 for t in ${parameters_to_check[@]}; do
     echo "Starting training with parameters $t"
     python $path/scripts/train_lenet_decolle.py --params_file=$path/scripts/parameters/params_dvsgestures_${t}.yml --save_dir=$output_path/$t
-    ---------------Epoch 1-------------
     echo "Finished training with parameters $t"
     echo "Plotting training results for parameters $t"
     python plot_results.py $t
