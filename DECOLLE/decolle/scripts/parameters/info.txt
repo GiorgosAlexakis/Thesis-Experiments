@@ -1,0 +1,7 @@
+01-08=[chunk_size=500-1500,layers=3C(64,128,128)] --expected better results with larger chunk size because it trains on larger part of video
+02-09=[reg_l=0-.1,layers=3C(128,512,256),1MLP(128)] --
+03-10=[alpha=0.97-0.99,alpharp=0.65-0.55,layers=3C(128,512,256),2MLP(128,128)] --we are expecting better results because we want the neurons to spike more frequently to capture the events better
+04-11=[reg_l=0-.0 inc by 0.04,layers=4MLP(512,256,128,128)] --expecting worse,because we reduce spikes in the last layer
+05-12=[reg_l=0-.0 inc by 0.05 but the last layer is .0,layers=4MLP(512,256,128,128)] --expecting better than 11
+06-13=[reg_l=0-.2 dec by 0.05 but the last layer is .0,layers=3C(128,512,256),1MLP(128)] --
+06-13=[drop factor =5-10] --
