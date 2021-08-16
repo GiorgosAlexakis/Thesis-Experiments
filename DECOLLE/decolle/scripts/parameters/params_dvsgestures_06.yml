@@ -30,7 +30,7 @@ learning_method: 'rtrl'
 loss: smoothL1
 lr_drop_factor: 5
 lr_drop_interval: 30
-num_epochs: 400
+num_epochs: 200
 num_conv_layers: 3
 num_mlp_layers: 1
 num_layers: 4
