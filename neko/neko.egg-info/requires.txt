@@ -1,0 +1,6 @@
+tensorflow>=2.3
+torch>=1.6
+numpy
+scipy
+tqdm
+requests
