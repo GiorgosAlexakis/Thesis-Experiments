@@ -20,7 +20,7 @@ def main():
     parser.add_argument('--batch_size', dest='batch_size', type=int, default=16, help='batch size')
     parser.add_argument('--learning_rule', dest='learning_rule', type=str, default='eprop', help='learning rule')
     parser.add_argument('--layer', dest='layer', type=str, default='ALIF', help='type of RNN/RSNN to use')
-    parser.add_argument('--hidden', dest='hidden', type=int, default=128, help='number of neurons in a hidden layer')
+    parser.add_argument('--hidden', dest='hidden', type=int, default=64, help='number of neurons in a hidden layer')
     parser.add_argument('--firing_thresh', dest='firing_thresh', type=float, default=1.0, help='firing threshhold')
     parser.add_argument('--eprop_mode', dest='eprop_mode', type=str, default='adaptive', help='eprop mode to use')
     parser.add_argument('--reg', dest='reg', action='store_true', default=False, help='enable regularization')
@@ -59,7 +59,7 @@ def main():
                          c_reg=args.reg_coeff,
                          f_target=args.reg_target)
     trainer = Trainer(algo)
-    training_log = trainer.train(x_train, y_train, epochs=args.epoch, batch_size=args.batch_size, evaluator = evaluated_model, x_test = x_test, y_test = y_test, shuffle_seed = 1)
+    training_log = trainer.train(x_train, y_train, epochs=args.epoch, batch_size=args.batch_size, shuffle_seed = 1, validation_data = (x_test, y_test))
     test_result = evaluated_model.evaluate(x_test, y_test, return_nparray=True)
     print('Test: ', test_result)
     completion_time = int(time.time())
