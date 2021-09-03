@@ -268,13 +268,10 @@ class ALIFRNNModel(RecurrentBaseModel, Epropable):
         temp = torch.FloatTensor(temp)
         for t in range(n_timestep):
             for b in range(batch_size):
-                if t == int(x[b][t][0]%500):
-                    if x[b][t][3] == 1:
-                        for p in range(100):
-                            temp[b][5*p+t//100][35*int(x[b][t][1])+int(x[b][t][2])] = 1
-                    elif x[b][t][3] == 0:
-                        for p in range(100):
-                            temp[b][5*p+t//100][35*int(x[b][t][1])+int(x[b][t][2])] = -1
+                if x[b][t][3] == 1:
+                    temp[b][t][35*int(x[b][t][1])+int(x[b][t][2])] = 5
+                elif x[b][t][3] == 0:
+                    temp[b][t][35*int(x[b][t][1])+int(x[b][t][2])] = -5
         for t in range(n_timestep):
             hidden_state = self.alpha * hidden_state + spike @ self.w_hh - n.diag_part(
                 self.w_hh) * spike + temp[:, t, :] @ self.w_ih - self.v_th * spike
@@ -297,7 +294,7 @@ class ALIFRNNModel(RecurrentBaseModel, Epropable):
             return_value = n.transpose(n.stack(outputs), perm=[1, 0, 2])
         else:
             return_value = outputs[-1]
-        print(return_value)
+        #print(return_value)
 
         if return_internals:
             hidden_states = [n.stack([v, a]) for v, a in zip(hidden_states, thresholds)]
