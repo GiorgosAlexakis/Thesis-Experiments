@@ -83,7 +83,6 @@ class Eprop(BaseLearningRule):
 
     def step(self, x, y):
         n = self.backend
-
         batch_size, n_timestep, input_size = x.shape
         input_size = 1225
         simulation_time = self.model.simulation_interval * n_timestep
@@ -126,6 +125,7 @@ class Eprop(BaseLearningRule):
         if self.model_task_type == 'regression':
             error = (outputs - y_timestep) * 2
         elif self.model_task_type == 'classification':
+            #print( outputs[:,-1], y_timestep[:,-1])
             error = (n.softmax(outputs) - y_timestep) * self.model.output_size
         else:
             raise NotImplementedError()
@@ -144,14 +144,10 @@ class Eprop(BaseLearningRule):
         temp = torch.FloatTensor(temp)
         for t in range(n_timestep):
             for b in range(batch_size):
-                time = int(x[b][t][0])
-                if t == int(x[b][t][0]%500):
-                    if x[b][t][3] == 1:
-                        for p in range(100):
-                            temp[b][5*p+t//100][35*int(x[b][t][1])+int(x[b][t][2])] = 1
-                    elif x[b][t][3] == 0:
-                        for p in range(100):
-                            temp[b][5*p+t//100][35*int(x[b][t][1])+int(x[b][t][2])] = -1
+                if x[b][t][3] == 1:
+                    temp[b][t][35*int(x[b][t][1])+int(x[b][t][2])] = 5
+                elif x[b][t][3] == 0:
+                    temp[b][t][35*int(x[b][t][1])+int(x[b][t][2])] = -5
         for t in range(n_timestep):
             # learning signal L_t, vector of shape (batch_size, hidden_size)
             if self.firing_rate_regularization:
