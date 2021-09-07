@@ -50,7 +50,7 @@ def main():
         loss = loss_with_reg
     else:
         loss = 'categorical_crossentropy'
-    rnn = layer(args.hidden, output_size=4, backend=n, task_type='classification', return_sequence=False
+    rnn = layer(args.hidden, output_size=11, backend=n, task_type='classification', return_sequence=False
                 , v_th=args.firing_thresh, seed=args.seed)
     evaluated_model = Evaluator(model=rnn, loss=loss, metrics=['accuracy', 'firing_rate'])
     algo = learning_rule(evaluated_model,
