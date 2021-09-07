@@ -3,7 +3,7 @@ from ..initializers import get_initializer
 from ..layers.base import Epropable
 from ..layers.iaf import LIFRNNModel, ALIFRNNModel
 import torch
-
+import numpy as np
 class Eprop(BaseLearningRule):
     def __init__(self,
                  evaluated_model,
@@ -84,7 +84,7 @@ class Eprop(BaseLearningRule):
     def step(self, x, y):
         n = self.backend
         batch_size, n_timestep, input_size = x.shape
-        input_size = 1225
+        input_size = 16384
         simulation_time = self.model.simulation_interval * n_timestep
 
         # handle labels for classification tasks
@@ -140,14 +140,15 @@ class Eprop(BaseLearningRule):
             L_reg = self.c_reg * (n.einsum('btj->bj', z) / simulation_time - self.f_target) / simulation_time
 
         # loop through t to calculate the eligibility vector and trace
-        temp = [[[0 for i in range(1225)] for i in range(n_timestep)] for i in range(batch_size)]
-        temp = torch.FloatTensor(temp)
+        temp = np.zeros((batch_size, n_timestep, 16384))
+
         for t in range(n_timestep):
             for b in range(batch_size):
-                if x[b][t][3] == 1:
-                    temp[b][t][35*int(x[b][t][1])+int(x[b][t][2])] = 5
-                elif x[b][t][3] == 0:
-                    temp[b][t][35*int(x[b][t][1])+int(x[b][t][2])] = -5
+                if x[b][t][2] == 1:
+                    temp[b][t][128*int(x[b][t][0])+int(x[b][t][1])] = 5
+                elif x[b][t][2] == 0:
+                    temp[b][t][128*int(x[b][t][0])+int(x[b][t][1])] = -5
+        temp = torch.cuda.FloatTensor(temp)
         for t in range(n_timestep):
             # learning signal L_t, vector of shape (batch_size, hidden_size)
             if self.firing_rate_regularization:
