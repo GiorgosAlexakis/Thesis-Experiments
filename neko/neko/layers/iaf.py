@@ -5,7 +5,7 @@ import torch
 from .base import Epropable
 from .recurrent import RecurrentBaseModel
 from ..activations import get_activation
-
+import numpy as np
 
 class LIFRNNModel(RecurrentBaseModel, Epropable):
     def __init__(self,
@@ -263,15 +263,15 @@ class ALIFRNNModel(RecurrentBaseModel, Epropable):
                               'o': output}
         if self.use_readout_bias:
             output += self.b_ho
+        temp = np.zeros((batch_size, n_timestep, 16384))
 
-        temp = [[[0 for i in range(1225)] for i in range(n_timestep)] for i in range(batch_size)]
-        temp = torch.FloatTensor(temp)
         for t in range(n_timestep):
             for b in range(batch_size):
-                if x[b][t][3] == 1:
-                    temp[b][t][35*int(x[b][t][1])+int(x[b][t][2])] = 5
-                elif x[b][t][3] == 0:
-                    temp[b][t][35*int(x[b][t][1])+int(x[b][t][2])] = -5
+                if x[b][t][2] == 1:
+                    temp[b][t][128 * int(x[b][t][0]) + int(x[b][t][1])] = 5
+                elif x[b][t][2] == 0:
+                    temp[b][t][128 * int(x[b][t][0]) + int(x[b][t][1])] = -5
+        temp = torch.cuda.FloatTensor(temp)
         for t in range(n_timestep):
             hidden_state = self.alpha * hidden_state + spike @ self.w_hh - n.diag_part(
                 self.w_hh) * spike + temp[:, t, :] @ self.w_ih - self.v_th * spike

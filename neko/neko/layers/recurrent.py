@@ -68,7 +68,7 @@ class RecurrentBaseModel(Model, ABC):
         Returns:
             None
         """
-        _, _, self.input_size = 1, 1, 1225
+        _, _, self.input_size = 1, 1, 16384
         # synaptic weight matrices
         self.add_parameter('w_ih', shape=(self.input_size, self.hidden_size))
         self.add_parameter('w_hh', shape=(self.hidden_size, self.hidden_size))
