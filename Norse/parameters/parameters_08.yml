@@ -1,0 +1,14 @@
+filter_time : 1000
+drop_probability: 0.25
+time_factor : 0.00001
+spatial_factor: 0.25
+HIDDEN_FEATURES : 50
+alpha: 100
+v_th: 1
+tau_syn_inv: 10000
+tau_mem_inv: 10000
+BATCH_SIZE : 32
+LR : 0.002
+EPOCHS: 100
+
+
