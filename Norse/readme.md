@@ -1,6 +1,8 @@
 Experiments with Norse
 Download Dvs Gestures data into dvsgestures folder
+
 https://www.neuromorphic-vision.com/public/downloads/ibmGestureTrain.tar.gz
+
 https://www.neuromorphic-vision.com/public/downloads/ibmGestureTest.tar.gz
 
 * 01-02 time factors=0.00001,0.001 spatial_f=1-0.25
