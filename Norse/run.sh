@@ -2,8 +2,8 @@
 path="."
 output_path="./output_data"
 
-#parameters_to_check=(01 02 03 04 05 06 07 08 09 10 11 12 13 14)
-parameters_to_check=(10)
+parameters_to_check=(01 02 03 04 05 06 07 08 09 10 11 12 13 14)
+#parameters_to_check=(10)
 
 for t in ${parameters_to_check[@]}; do
     mkdir -p ./plots/bar/$t
