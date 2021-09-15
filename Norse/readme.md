@@ -1,0 +1,10 @@
+Experiments with Norse
+
+01-02 time factors=0.00001,0.001 spatial_f=1-0.25
+03-04 syn-membrane values=100000-1000,time_factor=0.0001, spatial_f=0.25-0.5
+02-05 v_th=1,1.5 spatial_f=0.25-0.25
+02-06 LR=0.002,0.0002 spatial_f=0.25-1
+07 hidden_features=100 spatial_f=0.25
+08 drop_prob=0.25 spatial_f=0.25
+09 alpha=50 spatial_f=0.25
+10 time_factor=0.000001 spatial_f=0.25
